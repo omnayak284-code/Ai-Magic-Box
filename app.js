@@ -1,11 +1,18 @@
-const API_KEY = "YOUR_API_KEY_HERE";
+const apiKeyInput = document.getElementById("apiKey");
 const askButton = document.getElementById("askBtn");
 const result = document.getElementById("result");
 const promptInput = document.getElementById("prompt");
 const loading = document.getElementById("loading");
 
 askButton.addEventListener("click", async function () {
+    const apiKey = apiKeyInput.value.trim();
     const prompt = promptInput.value.trim();
+
+    if (!apiKey) {
+        result.textContent = "Please paste your Gemini API key first.";
+        apiKeyInput.focus();
+        return;
+    }
 
     if (!prompt) {
         result.textContent = "Please enter a question first.";
@@ -22,7 +29,7 @@ askButton.addEventListener("click", async function () {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "x-goog-api-key": API_KEY
+                "x-goog-api-key": apiKey
             },
             body: JSON.stringify({
                 contents: [{
